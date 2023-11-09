@@ -31,7 +31,7 @@ const items = ref([
     items: [
       {
         label: 'Cancel reservation',
-        icon: 'pi pi-times',
+        icon: 'pi pi-trash',
         command: () => {
           console.log("MODAL ELIMINAR")
         }

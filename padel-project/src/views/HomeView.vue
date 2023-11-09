@@ -2,12 +2,14 @@
   <h1>Main</h1>
 
   <Button @click="showModal" label="Book court" icon="pi pi-plus" iconPos="right" />
-  <bookform :visible="showBookModalRef" @on-close="() => showBookModalRef = false" @add-reservation="handleReservation" />
-
-  <h2>Mis reservas...</h2>
   <section class="reservations">
-    <Reservation v-for="reservation in reservationsRef" :data="reservation" />
+    <h2 class="reservations-title">My reservations <i class="pi pi-bookmark"></i></h2>
+    <h3 v-if="!reservationsRef.length" style="color: rgb(104, 102, 102);">No reservations available</h3>
+    <div class="reservations-grid">
+      <Reservation v-for="reservation in reservationsRef" :data="reservation" />
+    </div>
   </section>
+  <bookform :visible="showBookModalRef" @on-close="() => showBookModalRef = false" @add-reservation="handleReservation" />
   <Toast />
 </template>
 
@@ -19,6 +21,7 @@ import bookform from '../components/book-court-form/book-form.vue';
 import Reservation from '../components/Reservation/reservation.vue';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
+import 'primeicons/primeicons.css'
 
 
 const showBookModalRef = ref(false)
@@ -52,10 +55,21 @@ const showSuccess = () => {
 </script>
 
 
-<style>
+<style lang="scss" scoped>
 .reservations {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  column-gap: 1.3rem;
+  padding: 2rem;
+  margin-top: 1rem;
+  border: 1px solid;
+  border-radius: 7px;
+
+  &-title {
+    margin-bottom: 1rem;
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 1.3rem;
+  }
 }
 </style>
