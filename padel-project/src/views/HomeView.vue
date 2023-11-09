@@ -9,7 +9,7 @@
 <script setup>
 import { ref } from 'vue';
 import Button from 'primevue/button';
-import bookform from '../components/book-court-form/book-form.vue'
+import bookform from '../components/book-court-form/book-form.vue';
 
 
 const showBookModalRef = ref(false)
