@@ -1,11 +1,27 @@
 <template>
-  <h1 class="title-a">Esto es el header</h1>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio alias quam iure nesciunt asperiores placeat facere
-    unde sit obcaecati dicta soluta provident, rem officia ullam inventore doloribus laborum sapiente consequatur!</p>
+  <div class="header">
+    <div class="header-logo">
+      <span>Logo</span>
+    </div>
+  </div>
 </template>
 
 <script setup>
+import 'primeicons/primeicons.css'
 
 </script>
 
-<style lang=""></style>
+<style lang="scss">
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2rem;
+  background-color: green;
+  padding: 2rem;
+
+  &-logo {
+    color: white;
+  }
+}
+</style>
