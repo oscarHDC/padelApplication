@@ -3,7 +3,9 @@
     <div class="header-logo">
       <span>Logo</span>
     </div>
-    <Button label="OH" rounded @click="toggle" severity="secondary" />
+    <!-- <Button label="OH" rounded @click="toggle" severity="secondary" /> -->
+    <Avatar label="OH" class="mr-2" size="large" style="background-color: white; color: rgb(23, 141, 23)" shape="circle"
+      @click="toggle" />
     <OverlayPanel ref="panel">
       <div class="header-user-panel">
         <div class="">
@@ -22,6 +24,8 @@ import { ref } from 'vue'
 import 'primeicons/primeicons.css'
 import OverlayPanel from 'primevue/overlaypanel';
 import Button from 'primevue/button';
+import Avatar from 'primevue/avatar';
+import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
 
 const panel = ref()
 
@@ -48,5 +52,10 @@ const toggle = (event) => {
     align-items: center;
     gap: 1rem;
   }
+}
+
+.p-avatar-text {
+  font-size: 1rem;
+  cursor: pointer;
 }
 </style>

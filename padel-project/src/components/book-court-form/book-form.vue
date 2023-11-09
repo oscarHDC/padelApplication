@@ -18,7 +18,7 @@
 
       <div class="book-form-actions">
         <Button @click="hideModal" label="Cancel" severity="danger" rounded />
-        <Button label="Book" rounded />
+        <Button label="Book" rounded @click="bookCourt" />
       </div>
     </div>
   </Dialog>
@@ -40,6 +40,15 @@ const emit = defineEmits(['on-close'])
 
 function hideModal() {
   emit('on-close')
+}
+
+function bookCourt() {
+  const reservation = {
+    day: day.value,
+    startHour: startHour.value,
+    endHour: endHour.value,
+  }
+  emit('add-reservation', reservation)
 }
 
 </script>
