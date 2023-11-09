@@ -3,7 +3,7 @@
     <div class="book-form">
 
       <span class="p-float-label w-full">
-        <Calendar v-model="day" inputId="day" showIcon />
+        <Calendar v-model="day" inputId="day" showIcon dateFormat="dd/mm/yy" />
         <label for="day">Day</label>
       </span>
       <span class="p-float-label">
@@ -40,6 +40,7 @@ const emit = defineEmits(['on-close'])
 
 function hideModal() {
   emit('on-close')
+  day.value = null
 }
 
 function bookCourt() {

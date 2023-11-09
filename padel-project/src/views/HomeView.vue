@@ -8,6 +8,7 @@
   <section class="reservations">
     <Reservation v-for="reservation in reservationsRef" :data="reservation" />
   </section>
+  <Toast />
 </template>
 
 
@@ -15,11 +16,14 @@
 import { ref } from 'vue';
 import Button from 'primevue/button';
 import bookform from '../components/book-court-form/book-form.vue';
-import Reservation from '../components/Reservation/Reservation.vue'
+import Reservation from '../components/Reservation/reservation.vue';
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 
 
 const showBookModalRef = ref(false)
 const reservationsRef = ref([])
+const toast = useToast();
 
 const showModal = () => {
   showBookModalRef.value = true
@@ -37,8 +41,14 @@ const handleReservation = (data) => {
   reservationsRef.value.push(data)
 
   //Show toast
+  showSuccess()
 
 }
+
+
+const showSuccess = () => {
+  toast.add({ severity: 'success', summary: 'Reservation has been successful', detail: 'Reservation confirmed', life: 3000 });
+};
 </script>
 
 
