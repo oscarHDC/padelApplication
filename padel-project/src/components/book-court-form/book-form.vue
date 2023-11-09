@@ -29,7 +29,7 @@ import { ref } from 'vue'
 import Calendar from 'primevue/calendar';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-
+import { formatDate, formatTime } from '../../helpers/date-utils'
 
 const day = ref()
 const startHour = ref(new Date(2021, 9, 20, 18, 0));
@@ -44,9 +44,9 @@ function hideModal() {
 
 function bookCourt() {
   const reservation = {
-    day: day.value,
-    startHour: startHour.value,
-    endHour: endHour.value,
+    day: formatDate(day.value),
+    startHour: formatTime(startHour.value),
+    endHour: formatTime(endHour.value),
   }
   emit('add-reservation', reservation)
 }

@@ -2,8 +2,8 @@
   <div class="reservation">
     <div class="reservation-info">
       <h2 class="reservation-info__title">Pista 1</h2>
-      <p>10/11/2023</p>
-      <p>18:00 - 19:30</p>
+      <p>{{ prop$$.data.day }}</p>
+      <p>{{ prop$$.data.startHour }} - {{ prop$$.data.endHour }}</p>
     </div>
 
     <div class="card flex justify-content-center">
@@ -18,11 +18,16 @@ import { ref } from 'vue'
 import Button from 'primevue/button';
 import Menu from 'primevue/menu';
 
+const prop$$ = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  }
+})
 
 const menu = ref();
 const items = ref([
   {
-    label: 'Options',
     items: [
       {
         label: 'Cancel reservation',

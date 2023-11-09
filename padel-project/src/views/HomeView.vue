@@ -6,9 +6,7 @@
 
   <h2>Mis reservas...</h2>
   <section class="reservations">
-    <Reservation />
-    <Reservation />
-    <Reservation />
+    <Reservation v-for="reservation in reservationsRef" :data="reservation" />
   </section>
 </template>
 
@@ -21,18 +19,25 @@ import Reservation from '../components/Reservation/Reservation.vue'
 
 
 const showBookModalRef = ref(false)
+const reservationsRef = ref([])
 
 const showModal = () => {
   showBookModalRef.value = true
 }
 
-const handleReservation = (data) => {
-  console.log(data);
+const hideModal = () => {
   showBookModalRef.value = false
+}
+
+const handleReservation = (data) => {
+  //Close modal
+  hideModal();
+
+  //Add reservation to array
+  reservationsRef.value.push(data)
 
   //Show toast
 
-  //Add reservation to array
 }
 </script>
 
