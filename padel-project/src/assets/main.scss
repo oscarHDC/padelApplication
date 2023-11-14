@@ -1,0 +1,21 @@
+@import './test.scss';
+@import 'primeicons/primeicons.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+p,
+h1,
+h2,
+h3 {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-size: 'Rubik', 'sans-serif';
+}
+
+.container {
+  max-width: 1420px;
+  margin: 0 auto;
+  padding: 2rem;
+}
