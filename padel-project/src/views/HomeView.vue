@@ -6,7 +6,7 @@
     <h2 class="reservations-title">My reservations <i class="pi pi-bookmark"></i></h2>
     <h3 v-if="!reservationsRef.length" style="color: rgb(104, 102, 102);">No reservations available</h3>
     <div class="reservations-grid">
-      <Reservation v-for="reservation in reservationsRef" :data="reservation" />
+      <Reservation v-for="reservation in reservationsRef" :data="reservation" @remove-reservation="deleteReservation" />
     </div>
   </section>
   <bookform :visible="showBookModalRef" @on-close="() => showBookModalRef = false" @add-reservation="handleReservation" />
@@ -40,12 +40,19 @@ const handleReservation = (data) => {
   //Close modal
   hideModal();
 
+  //Setting Id
+  data.id = reservationsRef.value.length
+
   //Add reservation to array
   reservationsRef.value.push(data)
 
   //Show toast
   showSuccess()
 
+}
+
+const deleteReservation = ({ id }) => {
+  reservationsRef.value.splice(id, 1)
 }
 
 

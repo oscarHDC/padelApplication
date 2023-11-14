@@ -25,6 +25,8 @@ const prop$$ = defineProps({
   }
 })
 
+const emit = defineEmits(['remove-reservation'])
+
 const menu = ref();
 const items = ref([
   {
@@ -33,7 +35,7 @@ const items = ref([
         label: 'Cancel reservation',
         icon: 'pi pi-trash',
         command: () => {
-          console.log("MODAL ELIMINAR")
+          emit("remove-reservation", prop$$.data)
         }
       },
       {
