@@ -13,7 +13,7 @@
           <br>
           <span>Valladolid</span>
         </div>
-        <Button label="Sign off" severity="danger" rounded />
+        <Button @click="signOff" label="Sign off" severity="danger" rounded />
       </div>
     </OverlayPanel>
   </div>
@@ -25,12 +25,19 @@ import 'primeicons/primeicons.css'
 import OverlayPanel from 'primevue/overlaypanel';
 import Button from 'primevue/button';
 import Avatar from 'primevue/avatar';
-import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
+import AvatarGroup from 'primevue/avatargroup';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()  //Optional for grouping
 
 const panel = ref()
 
 const toggle = (event) => {
   panel.value.toggle(event);
+}
+
+const signOff = () => {
+  router.push('/')
 }
 </script>
 
