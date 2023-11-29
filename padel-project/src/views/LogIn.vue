@@ -3,7 +3,7 @@
     <h1>LOG IN</h1>
     <div class="flex flex-column gap-2">
       <label for="username">Username</label>
-      <InputText id="username" v-model="user" aria-describedby="username-help" />
+      <InputText id="username" v-model="userRef" aria-describedby="username-help" />
     </div>
     <div class="flex justify-content-center">
       <label for="value">Password</label>
@@ -23,16 +23,20 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Button from 'primevue/button';
 import { useRouter } from 'vue-router'
+import { useAppStore } from '../stores/appStore';
 
 const router = useRouter()
-const user = ref()
+const userRef = ref("")
 const password = ref()
+const store = useAppStore();
 
 const submit = () => {
-  if (user.value !== '' && password.value != '') {
-    //Redirect
+  const user = store.users.find(user => user.name === userRef.value)
+  if (user && user.password === password.value) {
+    store.setCurrentUser(user) //Setting current user
     router.push('/home') // Navigate to the /about route
   }
+
 }
 
 </script>
