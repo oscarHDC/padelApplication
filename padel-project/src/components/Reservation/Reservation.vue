@@ -38,10 +38,6 @@ const items = ref([
           emit("remove-reservation", prop$$.data)
         }
       },
-      {
-        label: 'Edit reservation',
-        icon: 'pi pi-pencil'
-      }
     ]
   }
 ]);

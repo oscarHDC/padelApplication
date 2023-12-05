@@ -6,18 +6,31 @@
   </section>
 
   <section class="reservations">
-    <h2 class="reservations-title">My reservations <i class="pi pi-bookmark"></i></h2>
-    <h3 v-if="!reservationsRef.length" style="color: rgb(104, 102, 102);">No reservations available</h3>
+    <h2 class="reservations-title">Join a game !</h2>
+    <h3 v-if="!gamesRef.length" style="color: rgb(104, 102, 102);">No reservations available</h3>
     <div class="reservations-grid">
-      <Reservation v-for="reservation in reservationsRef" :data="reservation" @remove-reservation="deleteReservation" />
+      <GameCard v-for="game in gamesRef" :data="game" @remove-reservation="deleteReservation" />
     </div>
   </section>
 
   <section class="reservations">
-    <h2 class="reservations-title">Games <i class="pi pi-bookmark"></i></h2>
-    <h3 v-if="!gamesRef.length" style="color: rgb(104, 102, 102);">No reservations available</h3>
+    <h2 class="reservations-title">My reservations <i class="pi pi-bookmark"></i></h2>
+    <h3 v-if="!reservationsRef.length" style="color: rgb(104, 102, 102);">No
+      reservations available</h3>
     <div class="reservations-grid">
-      <GameCard v-for="game in gamesRef" :data="game" @remove-reservation="deleteReservation" />
+      <div v-for="reservation in reservationsRef" class="">
+        <Reservation v-if="reservation !== undefined && reservation?.userID === store.currentUser.id" :data="reservation"
+          @remove-reservation="deleteReservation" />
+      </div>
+    </div>
+  </section>
+
+
+  <section class="reservations">
+    <h2 class="reservations-title">My games <i class="pi pi-bookmark"></i></h2>
+    <h3 v-if="!myGamesRef.length" style="color: rgb(104, 102, 102);">No reservations available</h3>
+    <div class="reservations-grid">
+      <GameCard v-for="game in myGamesRef" :data="game" :editable="true" @remove-reservation="deleteGame" />
     </div>
   </section>
   <bookform :visible="showBookModalRef" @on-close="() => showBookModalRef = false" @add-reservation="handleReservation" />
@@ -28,7 +41,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useAppStore } from '../stores/appStore';
 import { useToast } from 'primevue/usetoast';
 import 'primeicons/primeicons.css'
@@ -38,18 +51,28 @@ import Reservation from '../components/Reservation/reservation.vue';
 import Toast from 'primevue/toast';
 import CreateGameForm from '../components/create-game-form/CreateGameForm.vue'
 import GameCard from '../components/Game-Card/GameCard.vue';
+import { useRouter } from 'vue-router'
 
 const store = useAppStore()
+const router = useRouter()
 const showBookModalRef = ref(false)
 const showCreateGameModalRef = ref(false)
 const reservationsRef = ref([])
 const gamesRef = ref([])
 const toast = useToast()
+const myGamesRef = ref([])
+
+watch(store.getReservations(), () => {
+  console.log("CAMBIO");
+  reservationsRef.value = store.getReservations().map(reservation => {
+    if (reservation.userID === store.currentUser.id) {
+      return reservation
+    }
+  })
+})
 
 const showModal = () => {
   showBookModalRef.value = true
-  const a = store.getReservations()
-  console.log("STORE", a);
 }
 
 const showGameModal = () => {
@@ -65,10 +88,12 @@ const handleReservation = (data) => {
   hideModal();
 
   //Setting Id
-  data.id = reservationsRef.value.length
+  data.id = store.getReservations.length
 
   //Add reservation to array
   //reservationsRef.value.push(data)
+
+  //Add reservation to store
   store.reservations.push(data)
 
   //Show toast
@@ -79,22 +104,47 @@ const handleReservation = (data) => {
 const createGame = (game) => {
   showCreateGameModalRef.value = false
   gamesRef.value.push(game)
+  store.addGame(game)
+  gamesRef.value = store.getGames()
+  myGamesRef.value = store.getMyGames()
+
   showSuccess()
 }
 
 const deleteReservation = ({ id }) => {
-  reservationsRef.value.splice(id, 1)
+  //reservationsRef.value.splice(id, 1)
   store.reservations.splice(id, 1)
 }
 
+const deleteGame = (game) => {
+  console.log("GAME", game);
+  store.games.splice(game.id, 1)
+  myGamesRef.value = store.getMyGames()
+}
 
 const showSuccess = () => {
   toast.add({ severity: 'success', summary: 'Reservation has been successful', detail: 'Reservation confirmed', life: 3000 });
 };
 
 onMounted(() => {
-  reservationsRef.value = store.getReservations()
+  if (store.currentUser === undefined) {
+    //Redirect
+    router.push('/')
+  }
+
+  reservationsRef.value = store.getReservations().map(reservation => {
+    if (reservation.userID === store.currentUser.id) {
+      return reservation
+    }
+
+  })
+
+  myGamesRef.value = store.getMyGames()
+  gamesRef.value = store.getGames()
+  console.log("MY RESERVATIONS", reservationsRef.value);
 })
+
+
 </script>
 
 
@@ -113,6 +163,7 @@ onMounted(() => {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     column-gap: 1.3rem;
+    row-gap: 1.3rem;
   }
 
   &-actions {
