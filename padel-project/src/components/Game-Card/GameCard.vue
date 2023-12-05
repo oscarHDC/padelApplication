@@ -14,8 +14,7 @@
       </div>
     </div>
 
-
-    <div class="card flex justify-content-center">
+    <div class="card flex justify-content-center" v-if="editable">
       <Button type="button" icon="pi pi-ellipsis-v" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
       <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
     </div>
@@ -31,6 +30,11 @@ const prop$$ = defineProps({
   data: {
     type: Object,
     required: true,
+  },
+
+  editable: {
+    type: Boolean,
+    default: false,
   }
 })
 
@@ -47,10 +51,6 @@ const items = ref([
           emit("remove-reservation", prop$$.data)
         }
       },
-      {
-        label: 'Edit reservation',
-        icon: 'pi pi-pencil'
-      }
     ]
   }
 ]);

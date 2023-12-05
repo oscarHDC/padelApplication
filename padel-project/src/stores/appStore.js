@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('store', () => {
   const currentUser = ref()
   const reservations = ref([])
+  const games = ref([])
   const users = ref([
     {
       id: 1,
@@ -18,6 +19,7 @@ export const useAppStore = defineStore('store', () => {
   ])
 
 
+
   function getReservations() {
     return reservations.value
   }
@@ -26,7 +28,31 @@ export const useAppStore = defineStore('store', () => {
     currentUser.value = user
   }
 
+  function addGame(game){
+    games.value.push(game)
+  }
 
-  return {users, setCurrentUser, currentUser, reservations, getReservations}
+  function getGames() {
+    const data = games.value.filter((game) => game.userID !== currentUser.value?.id)
+    return data
+  }
+  
+  function getMyGames() {
+    const data = games.value.filter((game) => game.userID === currentUser.value?.id)
+    return data
+  }
+
+
+  return {
+    users,
+    setCurrentUser,
+    currentUser,
+    reservations,
+    getReservations,
+    getGames,
+    getMyGames,
+    addGame,
+    games,
+  }
 
 })

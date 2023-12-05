@@ -30,10 +30,12 @@ import Calendar from 'primevue/calendar';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import { formatDate, formatTime } from '../../helpers/date-utils'
+import { useAppStore } from '../../stores/appStore';
 
 const day = ref()
 const startHour = ref(new Date(2021, 9, 20, 18, 0));
 const endHour = ref(new Date(2021, 9, 20, 19, 0));
+const store = useAppStore()
 
 
 const emit = defineEmits(['on-close'])
@@ -48,6 +50,7 @@ function bookCourt() {
     day: formatDate(day.value),
     startHour: formatTime(startHour.value),
     endHour: formatTime(endHour.value),
+    userID: store.currentUser.id
   }
   emit('add-reservation', reservation)
 }

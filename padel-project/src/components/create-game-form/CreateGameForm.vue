@@ -41,8 +41,9 @@ import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 import { formatDate, formatTime } from '../../helpers/date-utils'
 import Rating from 'primevue/rating';
+import { useAppStore } from '../../stores/appStore';
 
-
+const store = useAppStore()
 const day = ref()
 const startHour = ref(new Date(2023, 9, 20, 18, 0));
 const endHour = ref(new Date(2023, 9, 20, 19, 0));
@@ -80,12 +81,15 @@ function hideModal() {
 }
 
 function submit() {
+
   const game = {
+    id: store.games.length,
     users: users.value,
     level: levelRef.value,
     day: formatDate(day.value),
     startHour: formatTime(startHour.value),
     endHour: formatTime(endHour.value),
+    userID: store.currentUser.id,
   }
   emit('create-game', game)
 }
