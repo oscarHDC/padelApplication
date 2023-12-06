@@ -7,7 +7,8 @@
     </div>
     <div class="flex justify-content-center">
       <label for="value">Password</label>
-      <Password id="value" v-model="password" type="text" aria-describedby="text-error" :feedback="false" />
+      <Password id="value" v-model="password" type="text" aria-describedby="text-error" :feedback="false"
+        style="width: 100%;" toggleMask />
     </div>
 
     <div class="align">
@@ -42,6 +43,10 @@ const submit = () => {
 </script>
 
 <style lang="scss">
+.p-password-input {
+  width: 100% !important;
+}
+
 .login {
   max-width: 700px;
   margin: 0 auto;
