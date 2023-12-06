@@ -47,7 +47,7 @@ const store = useAppStore()
 const day = ref()
 const startHour = ref(new Date(2023, 9, 20, 18, 0));
 const endHour = ref(new Date(2023, 9, 20, 19, 0));
-const users = ref()
+const users = ref(1)
 const levelRef = ref(3)
 const levelDescription = ref('Intermediate')
 

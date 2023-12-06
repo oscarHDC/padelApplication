@@ -18,6 +18,14 @@
       <Button type="button" icon="pi pi-ellipsis-v" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
       <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
     </div>
+
+    <div class="card flex justify-content-center" v-if="!editable">
+      <Button type="button" icon="pi pi-angle-double-right" @click="joinGame" aria-haspopup="true"
+        aria-controls="overlay_menu" />
+
+    </div>
+
+
   </div>
 </template>
 
@@ -38,7 +46,7 @@ const prop$$ = defineProps({
   }
 })
 
-const emit = defineEmits(['remove-reservation'])
+const emit = defineEmits(['remove-reservation', 'join-game'])
 
 const menu = ref();
 const items = ref([
@@ -54,6 +62,10 @@ const items = ref([
     ]
   }
 ]);
+
+const joinGame = () => {
+  emit('join-game', prop$$.data)
+}
 
 const toggle = (event) => {
   menu.value.toggle(event);
