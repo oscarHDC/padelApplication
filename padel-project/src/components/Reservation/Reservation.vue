@@ -14,10 +14,12 @@
 </template>
 
 <script setup>
+// Importación de funciones y componentes necesarios desde Vue y PrimeVue
 import { ref } from 'vue'
 import Button from 'primevue/button';
 import Menu from 'primevue/menu';
 
+// Propiedades esperadas para la información de la reserva
 const prop$$ = defineProps({
   data: {
     type: Object,
@@ -25,13 +27,16 @@ const prop$$ = defineProps({
   }
 })
 
+// Emisor de eventos para la acción de eliminar reserva
 const emit = defineEmits(['remove-reservation'])
 
+// Referencia al menú y definición de sus elementos
 const menu = ref();
 const items = ref([
   {
     items: [
       {
+        // Opción para cancelar la reserva
         label: 'Cancel reservation',
         icon: 'pi pi-trash',
         command: () => {
@@ -42,6 +47,7 @@ const items = ref([
   }
 ]);
 
+// Función para alternar la visibilidad del menú de opciones
 const toggle = (event) => {
   menu.value.toggle(event);
 };

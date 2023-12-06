@@ -32,12 +32,13 @@ import Button from 'primevue/button';
 import { formatDate, formatTime } from '../../helpers/date-utils'
 import { useAppStore } from '../../stores/appStore';
 
+// Estado local para la reserva
 const day = ref()
 const startHour = ref(new Date(2021, 9, 20, 18, 0));
 const endHour = ref(new Date(2021, 9, 20, 19, 0));
 const store = useAppStore()
 
-
+// Emite un evento para cerrar el diálogo de reserva
 const emit = defineEmits(['on-close'])
 
 function hideModal() {
@@ -45,6 +46,7 @@ function hideModal() {
   day.value = null
 }
 
+// Función para realizar la reserva
 function bookCourt() {
   const reservation = {
     day: formatDate(day.value),
@@ -56,7 +58,6 @@ function bookCourt() {
 }
 
 </script>
-
 <style lang="scss">
 .book-form {
   padding: 1rem;

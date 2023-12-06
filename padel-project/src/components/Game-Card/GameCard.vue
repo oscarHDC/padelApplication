@@ -28,26 +28,28 @@
 
   </div>
 </template>
-
 <script setup>
+// Importación de funciones y componentes necesarios desde Vue
 import { ref } from 'vue'
 import Button from 'primevue/button';
 import Menu from 'primevue/menu';
 
+// Propiedades esperadas para la información de la reserva y su modo editable
 const prop$$ = defineProps({
   data: {
     type: Object,
     required: true,
   },
-
   editable: {
     type: Boolean,
     default: false,
   }
 })
 
+// Emisores de eventos para acciones como remover reserva o unirse a la partida
 const emit = defineEmits(['remove-reservation', 'join-game'])
 
+// Referencia al menú y definición de sus elementos
 const menu = ref();
 const items = ref([
   {
@@ -63,14 +65,17 @@ const items = ref([
   }
 ]);
 
+// Función para unirse a la partida
 const joinGame = () => {
   emit('join-game', prop$$.data)
 }
 
+// Función para alternar la visibilidad del menú
 const toggle = (event) => {
   menu.value.toggle(event);
 };
 
+// Función para componer el nivel de habilidad a partir del número proporcionado
 const composeLevel = (level) => {
   let levelDescription
   switch (level) {
@@ -89,13 +94,10 @@ const composeLevel = (level) => {
     case 5:
       levelDescription = 'Master'
       break;
-
   }
 
   return levelDescription
 }
-
-
 </script>
 
 <style lang="scss" scoped>

@@ -34,67 +34,71 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+// Importación de funciones y componentes necesarios desde Vue y PrimeVue
+import { ref, watch, defineEmits } from 'vue';
 import Calendar from 'primevue/calendar';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
-import { formatDate, formatTime } from '../../helpers/date-utils'
+import { formatDate, formatTime } from '../../helpers/date-utils';
 import Rating from 'primevue/rating';
 import { useAppStore } from '../../stores/appStore';
 
-const store = useAppStore()
-const day = ref()
-const startHour = ref(new Date(2023, 9, 20, 18, 0));
-const endHour = ref(new Date(2023, 9, 20, 19, 0));
-const users = ref(1)
-const levelRef = ref(3)
-const levelDescription = ref('Intermediate')
+// Uso del store de la aplicación para almacenar los datos de las partidas y usuarios
+const store = useAppStore();
 
+// Declaración de variables reactivas utilizando ref()
+const day = ref(); // Variable reactiva para almacenar la fecha seleccionada
+const startHour = ref(new Date(2023, 9, 20, 18, 0)); // Hora de inicio predefinida
+const endHour = ref(new Date(2023, 9, 20, 19, 0)); // Hora de finalización predefinida
+const users = ref(1); // Número de personas participantes
+const levelRef = ref(3); // Nivel de habilidad seleccionado
+const levelDescription = ref('Intermediate'); // Descripción del nivel por defecto
+
+// Observador para cambiar la descripción del nivel según la selección del usuario
 watch(levelRef, () => {
   switch (levelRef.value) {
     case 1:
-      levelDescription.value = 'Noob'
+      levelDescription.value = 'Noob';
       break;
     case 2:
-      levelDescription.value = 'Beginner'
+      levelDescription.value = 'Beginner';
       break;
     case 3:
-      levelDescription.value = 'Intermediate'
+      levelDescription.value = 'Intermediate';
       break;
     case 4:
-      levelDescription.value = 'Pro'
+      levelDescription.value = 'Pro';
       break;
     case 5:
-      levelDescription.value = 'Master'
+      levelDescription.value = 'Master';
       break;
-
   }
-})
+});
 
-
-const emit = defineEmits(['on-close'])
+// Función para emitir evento de cierre del modal
+const emit = defineEmits(['on-close']);
 
 function hideModal() {
-  emit('on-close')
-  day.value = null
+  emit('on-close'); // Emite el evento 'on-close' para cerrar el modal
+  day.value = null; // Reinicia el valor de la fecha seleccionada
 }
 
+// Función para crear y emitir información del juego al hacer click en "Create game"
 function submit() {
-
   const game = {
-    id: store.games.length,
-    users: users.value,
-    level: levelRef.value,
-    day: formatDate(day.value),
-    startHour: formatTime(startHour.value),
-    endHour: formatTime(endHour.value),
-    userID: store.currentUser.id,
-  }
-  emit('create-game', game)
+    id: store.games.length, // Asigna un ID a la nueva partida
+    users: users.value, // Número de usuarios en el juego
+    level: levelRef.value, // Nivel de habilidad
+    day: formatDate(day.value), // Formatea la fecha
+    startHour: formatTime(startHour.value), // Formatea la hora de inicio
+    endHour: formatTime(endHour.value), // Formatea la hora de finalización
+    userID: store.currentUser.id, // ID del usuario actual
+  };
+  emit('create-game', game); // Emite el evento 'create-game' con los datos de la partida
 }
-
 </script>
+
 
 <style lang="scss">
 .book-form {

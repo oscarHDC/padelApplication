@@ -20,24 +20,26 @@
 </template>
 
 <script setup>
+// Importación de funciones y componentes necesarios desde Vue y PrimeVue
 import { ref } from 'vue'
-import 'primeicons/primeicons.css'
+import 'primeicons/primeicons.css' // Importación opcional para iconos
 import OverlayPanel from 'primevue/overlaypanel';
 import Button from 'primevue/button';
 import Avatar from 'primevue/avatar';
-import AvatarGroup from 'primevue/avatargroup';
 import { useRouter } from 'vue-router'
 
-const router = useRouter()  //Optional for grouping
+// Definición de enrutador (opcional, dependiendo del uso del enrutado)
+const router = useRouter()
 
+// Referencia al panel de superposición y función para alternar su visibilidad
 const panel = ref()
-
 const toggle = (event) => {
   panel.value.toggle(event);
 }
 
+// Función para cerrar sesión y redirigir a la página de inicio
 const signOff = () => {
-  router.push('/')
+  router.push('/') // Redirección a la página de inicio al cerrar sesión
 }
 </script>
 

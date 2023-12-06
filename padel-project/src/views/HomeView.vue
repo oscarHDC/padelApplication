@@ -57,6 +57,7 @@
 </template>
 
 <script setup>
+// Importación de funciones y componentes necesarios desde Vue y PrimeVue
 import { ref, onMounted, watch } from 'vue';
 import { useAppStore } from '../stores/appStore';
 import { useToast } from 'primevue/usetoast';
@@ -72,8 +73,7 @@ import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from "primevue/useconfirm";
 import Rating from 'primevue/rating';
 
-
-
+// Uso de las funciones y creación de referencias y variables necesarias
 const confirm = useConfirm();
 const store = useAppStore()
 const router = useRouter()
@@ -85,8 +85,8 @@ const toast = useToast()
 const myGamesRef = ref([])
 const reviewsRef = ref(4)
 
+// Watcher para actualizar las reservas al cambiarlas
 watch(store.getReservations(), () => {
-  console.log("CAMBIO");
   reservationsRef.value = store.getReservations().map(reservation => {
     if (reservation.userID === store.currentUser.id) {
       return reservation
@@ -94,8 +94,9 @@ watch(store.getReservations(), () => {
   })
 })
 
+// Función para unirse a un juego y mostrar confirmación
 function handleJoinGame(currentGame) {
-
+  // Lógica para confirmar la unión al juego
   confirm.require({
     message: 'Are you sure you want to join the game?',
     header: 'Confirmation',
@@ -105,38 +106,19 @@ function handleJoinGame(currentGame) {
       toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
     }
   });
-
-
 }
 
-const showModal = () => {
-  showBookModalRef.value = true
-}
+// Funciones para mostrar y ocultar modales
+const showModal = () => { showBookModalRef.value = true }
+const showGameModal = () => { showCreateGameModalRef.value = true }
+const hideModal = () => { showBookModalRef.value = false }
 
-const showGameModal = () => {
-  showCreateGameModalRef.value = true
-}
-
-const hideModal = () => {
-  showBookModalRef.value = false
-}
-
+// Manejo de la reserva y creación de juego
 const handleReservation = (data) => {
-  //Close modal
   hideModal();
-
-  //Setting Id
   data.id = store.getReservations.length
-
-  //Add reservation to array
-  //reservationsRef.value.push(data)
-
-  //Add reservation to store
   store.reservations.push(data)
-
-  //Show toast
   showSuccess()
-
 }
 
 const createGame = (game) => {
@@ -145,45 +127,31 @@ const createGame = (game) => {
   store.addGame(game)
   gamesRef.value = store.getGames()
   myGamesRef.value = store.getMyGames()
-
   showSuccess()
 }
 
-const deleteReservation = ({ id }) => {
-  //reservationsRef.value.splice(id, 1)
-  store.reservations.splice(id, 1)
-}
+// Eliminación de reserva y juego
+const deleteReservation = ({ id }) => { store.reservations.splice(id, 1) }
+const deleteGame = (game) => { store.games.splice(game.id, 1); myGamesRef.value = store.getMyGames() }
 
-const deleteGame = (game) => {
-  console.log("GAME", game);
-  store.games.splice(game.id, 1)
-  myGamesRef.value = store.getMyGames()
-}
-
+// Función para mostrar mensaje de éxito
 const showSuccess = () => {
   toast.add({ severity: 'success', summary: 'Reservation has been successful', detail: 'Reservation confirmed', life: 3000 });
 };
 
+// Lógica al montar el componente
 onMounted(() => {
-  console.log("USER", store.currentUser);
   if (store.currentUser === undefined) {
-    //Redirect
     router.push('/')
   }
-
   reservationsRef.value = store.getReservations().map(reservation => {
     if (reservation.userID === store.currentUser.id) {
       return reservation
     }
-
   })
-
   myGamesRef.value = store.getMyGames()
   gamesRef.value = store.getGames()
-  console.log("MY RESERVATIONS", reservationsRef.value);
 })
-
-
 </script>
 
 
