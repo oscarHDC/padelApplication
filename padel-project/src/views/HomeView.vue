@@ -1,5 +1,19 @@
 <template>
-  <h1>Main</h1>
+  <section class="user-information">
+    <div class="user-image">
+      <i class="pi pi-user" style="font-size: 4.5rem; border: 3px solid black; border-radius: 100%; padding: 1rem;"></i>
+    </div>
+    <div class="user-details">
+      <h2>{{ store.currentUser?.name }}</h2>
+      <h3>{{ store.currentUser?.level }}</h3>
+      <h3>Matches played: {{ store.currentUser?.matches }}</h3>
+      <div class="" style="display: flex; align-items: center; gap: .3rem;">
+        <h3>Reviews</h3>
+        <Rating v-model="reviewsRef" readonly :cancel="false" />
+      </div>
+    </div>
+  </section>
+
   <section class="reservations-actions">
     <Button @click="showModal" label="Book court" icon="pi pi-plus" iconPos="right" />
     <Button @click="showGameModal" label="Create game" icon="pi pi-users" iconPos="right" />
@@ -9,7 +23,8 @@
     <h2 class="reservations-title">Join a game !</h2>
     <h3 v-if="!gamesRef.length" style="color: rgb(104, 102, 102);">No reservations available</h3>
     <div class="reservations-grid">
-      <GameCard v-for="game in gamesRef" :data="game" @remove-reservation="deleteReservation" />
+      <GameCard v-for="game in gamesRef" :data="game" @remove-reservation="deleteReservation"
+        @join-game="handleJoinGame" />
     </div>
   </section>
 
@@ -38,6 +53,7 @@
   <CreateGameForm :visible="showCreateGameModalRef" @on-close="() => showCreateGameModalRef = false"
     @create-game="createGame" />
   <Toast />
+  <ConfirmDialog />
 </template>
 
 <script setup>
@@ -52,7 +68,13 @@ import Toast from 'primevue/toast';
 import CreateGameForm from '../components/create-game-form/CreateGameForm.vue'
 import GameCard from '../components/Game-Card/GameCard.vue';
 import { useRouter } from 'vue-router'
+import ConfirmDialog from 'primevue/confirmdialog';
+import { useConfirm } from "primevue/useconfirm";
+import Rating from 'primevue/rating';
 
+
+
+const confirm = useConfirm();
 const store = useAppStore()
 const router = useRouter()
 const showBookModalRef = ref(false)
@@ -61,6 +83,7 @@ const reservationsRef = ref([])
 const gamesRef = ref([])
 const toast = useToast()
 const myGamesRef = ref([])
+const reviewsRef = ref(4)
 
 watch(store.getReservations(), () => {
   console.log("CAMBIO");
@@ -70,6 +93,21 @@ watch(store.getReservations(), () => {
     }
   })
 })
+
+function handleJoinGame(currentGame) {
+
+  confirm.require({
+    message: 'Are you sure you want to join the game?',
+    header: 'Confirmation',
+    icon: 'pi pi-arrow-circle-right',
+    accept: () => {
+      store.updateGame(currentGame)
+      toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+    }
+  });
+
+
+}
 
 const showModal = () => {
   showBookModalRef.value = true
@@ -127,6 +165,7 @@ const showSuccess = () => {
 };
 
 onMounted(() => {
+  console.log("USER", store.currentUser);
   if (store.currentUser === undefined) {
     //Redirect
     router.push('/')
@@ -172,5 +211,13 @@ onMounted(() => {
     align-items: center;
     gap: 1rem;
   }
+}
+
+.user-information {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  margin-bottom: 3rem;
+
 }
 </style>

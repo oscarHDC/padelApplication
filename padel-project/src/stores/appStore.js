@@ -4,21 +4,43 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('store', () => {
   const currentUser = ref()
   const reservations = ref([])
-  const games = ref([])
+  const games = ref([
+    {
+      "id":0,
+      "users":1,
+      "level":3,
+      "day":"06/12/2023",
+      "startHour":"18:00",
+      "endHour":"19:00",
+      "userID":1
+    }
+  ])
   const users = ref([
     {
       id: 1,
-      name: 'Oscar Hernanz',
-      password: 'a'
+      name: 'Oscar',
+      password: 'a',
+      level: 'Advanced level',
+      matches: 16,
+      reviews: 3,
     },
     { 
       id: 2,
-      name: 'Miguel Hernanz',
-      password: 'b'
+      name: 'Miguel',
+      password: 'a',
+      level: 'Advanced level',
+      matches: 11,
+      reviews: 3,
+    },
+    { 
+      id: 3,
+      name: 'Hugo',
+      password: 'a',
+      level: 'Advanced level',
+      matches: 23,
+      reviews: 3,
     }
   ])
-
-
 
   function getReservations() {
     return reservations.value
@@ -42,6 +64,21 @@ export const useAppStore = defineStore('store', () => {
     return data
   }
 
+  function updateGame(selectedGame) {
+
+      // Find the object in the array by its ID
+    const updatedArray = games.value.map(obj => {
+      if (obj.id === selectedGame.id) {
+          // If the object's ID matches, update the fieldToUpdate
+          return { ...obj, users: obj.users++ };
+      }
+      return obj; // Otherwise, return the object unchanged
+    });
+
+    console.log(updatedArray);
+
+  }
+
 
   return {
     users,
@@ -53,6 +90,7 @@ export const useAppStore = defineStore('store', () => {
     getMyGames,
     addGame,
     games,
+    updateGame,
   }
 
 })
