@@ -19,7 +19,7 @@ export const useAppStore = defineStore('store', () => {
     {
       id: 1,
       name: 'Oscar',
-      password: 'a',
+      password: 'password',
       level: 'Advanced level',
       matches: 16,
       reviews: 3,
@@ -27,7 +27,7 @@ export const useAppStore = defineStore('store', () => {
     { 
       id: 2,
       name: 'Miguel',
-      password: 'a',
+      password: 'password',
       level: 'Advanced level',
       matches: 11,
       reviews: 3,
@@ -35,7 +35,15 @@ export const useAppStore = defineStore('store', () => {
     { 
       id: 3,
       name: 'Hugo',
-      password: 'a',
+      password: 'password',
+      level: 'Advanced level',
+      matches: 23,
+      reviews: 3,
+    },
+    { 
+      id: 4,
+      name: 'Javier',
+      password: 'password',
       level: 'Advanced level',
       matches: 23,
       reviews: 3,

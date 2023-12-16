@@ -136,7 +136,7 @@ const deleteGame = (game) => { store.games.splice(game.id, 1); myGamesRef.value 
 
 // Función para mostrar mensaje de éxito
 const showSuccess = () => {
-  toast.add({ severity: 'success', summary: 'Reservation has been successful', detail: 'Reservation confirmed', life: 3000 });
+  toast.add({ severity: 'success', summary: 'Game has been successful', detail: 'Game confirmed', life: 3000 });
 };
 
 // Lógica al montar el componente
